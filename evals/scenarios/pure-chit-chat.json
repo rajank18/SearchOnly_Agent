@@ -1,0 +1,15 @@
+{
+  "id": "pure-chit-chat",
+  "name": "Pure Conversational Chit-Chat: Must Not Search",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "Hello! How can you help me today?",
+  "seededTurns": [],
+  "searchFixtures": {},
+  "expectations": {
+    "expectedMode": "answer",
+    "mustMention": ["help", "search"],
+    "shouldNotSearch": true,
+    "maxLatencyMs": 6000
+  }
+}

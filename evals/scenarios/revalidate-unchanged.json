@@ -1,0 +1,43 @@
+{
+  "id": "revalidate-unchanged",
+  "name": "Revalidation Audit: License Confirmed Unchanged",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "Has the PostgreSQL license changed since last week?",
+  "seededTurns": [
+    {
+      "id": "seed-pg-license",
+      "sessionId": "eval-session-pg-lic",
+      "userMessage": "What license does PostgreSQL use?",
+      "assistantResponse": "PostgreSQL is released under the open-source PostgreSQL License, a liberal OSI-compliant license [1].",
+      "userTz": "Asia/Kolkata",
+      "createdAt": "2026-11-07T10:00:00.000Z"
+    }
+  ],
+  "seededClaims": [
+    {
+      "entity": "PostgreSQL",
+      "attribute": "license",
+      "value": "PostgreSQL License",
+      "sourceUrl": "https://www.postgresql.org/about/licence/",
+      "retrievedAt": "2026-11-07T10:00:00.000Z",
+      "volatility": "low"
+    }
+  ],
+  "searchFixtures": {
+    "PostgreSQL license pricing OR changelog OR announcement 2026": [
+      {
+        "title": "PostgreSQL License Information",
+        "url": "https://www.postgresql.org/about/licence/",
+        "snippet": "PostgreSQL is released under the PostgreSQL License, remaining free, open source, and unchanged.",
+        "publishedDate": "2026-11-12"
+      }
+    ]
+  },
+  "expectations": {
+    "expectedMode": "revalidate",
+    "entities": ["PostgreSQL"],
+    "mustMention": ["PostgreSQL", "unchanged"],
+    "maxLatencyMs": 15000
+  }
+}

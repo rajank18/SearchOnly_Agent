@@ -1,0 +1,16 @@
+{
+  "id": "no-history-honesty",
+  "name": "No-History Honesty: Gaps Acknowledged Without Hallucination",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "What did I ask on 3 Nov?",
+  "seededTurns": [],
+  "searchFixtures": {},
+  "expectations": {
+    "expectedMode": "answer",
+    "mustMention": ["no record", "history"],
+    "mustNotMention": ["Vite", "React template", "yesterday you asked"],
+    "shouldNotSearch": true,
+    "maxLatencyMs": 8000
+  }
+}

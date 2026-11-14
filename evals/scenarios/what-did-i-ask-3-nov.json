@@ -1,0 +1,23 @@
+{
+  "id": "what-did-i-ask-3-nov",
+  "name": "Recall Question Asked on 3 Nov",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "What did I ask on 3 Nov?",
+  "seededTurns": [
+    {
+      "id": "scenario-seed-2",
+      "sessionId": "eval-session-nov3",
+      "userMessage": "How do I configure Vite with React and TypeScript?",
+      "assistantResponse": "Run `npm create vite@latest my-app -- --template react-ts`.",
+      "userTz": "Asia/Kolkata",
+      "createdAt": "2026-11-03T14:15:00.000Z"
+    }
+  ],
+  "searchFixtures": {},
+  "expectations": {
+    "expectedMode": "answer",
+    "mustMention": ["Vite", "React"],
+    "maxLatencyMs": 10000
+  }
+}

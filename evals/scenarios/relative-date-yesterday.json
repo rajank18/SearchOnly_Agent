@@ -1,0 +1,24 @@
+{
+  "id": "relative-date-yesterday",
+  "name": "Recall Turn from Yesterday Using Relative Date Resolution",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "What did we discuss yesterday?",
+  "seededTurns": [
+    {
+      "id": "seed-yesterday-1",
+      "sessionId": "eval-session-yesterday",
+      "userMessage": "What are the core advantages of using SQLite in embedded agents?",
+      "assistantResponse": "Yesterday we discussed SQLite: zero configuration, in-process execution, no network latency, and built-in FTS5 search support.",
+      "userTz": "Asia/Kolkata",
+      "createdAt": "2026-11-13T10:00:00.000Z"
+    }
+  ],
+  "searchFixtures": {},
+  "expectations": {
+    "expectedMode": "answer",
+    "mustMention": ["SQLite", "zero configuration"],
+    "shouldNotSearch": true,
+    "maxLatencyMs": 10000
+  }
+}

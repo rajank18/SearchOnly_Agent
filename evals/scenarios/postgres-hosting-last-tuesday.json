@@ -1,0 +1,23 @@
+{
+  "id": "postgres-hosting-last-tuesday",
+  "name": "Recall Postgres Hosting Options Discussed Last Tuesday",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "What postgres hosting options did we discuss last Tuesday?",
+  "seededTurns": [
+    {
+      "id": "scenario-seed-3",
+      "sessionId": "eval-session-pg",
+      "userMessage": "What are the best managed PostgreSQL hosting providers in 2026?",
+      "assistantResponse": "Popular managed PostgreSQL providers include Supabase, Neon (serverless branching), Crunchy Bridge, and AWS RDS [1].",
+      "userTz": "Asia/Kolkata",
+      "createdAt": "2026-11-10T11:00:00.000Z"
+    }
+  ],
+  "searchFixtures": {},
+  "expectations": {
+    "expectedMode": "answer",
+    "mustMention": ["Supabase", "Neon"],
+    "maxLatencyMs": 10000
+  }
+}

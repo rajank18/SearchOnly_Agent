@@ -1,0 +1,24 @@
+{
+  "id": "single-fresh-fact-search",
+  "name": "Single Fresh-Fact Web Search",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "What is the latest LTS version of Node.js in 2026?",
+  "seededTurns": [],
+  "searchFixtures": {
+    "latest LTS version of Node.js 2026": [
+      {
+        "title": "Node.js Releases and Schedule",
+        "url": "https://nodejs.org/en/about/previous-releases",
+        "snippet": "Node.js 24 is the active Long Term Support (LTS) release line in late 2026.",
+        "publishedDate": "2026-11-01"
+      }
+    ]
+  },
+  "expectations": {
+    "expectedMode": "search",
+    "mustMention": ["Node.js", "24"],
+    "maxSearches": 1,
+    "maxLatencyMs": 12000
+  }
+}

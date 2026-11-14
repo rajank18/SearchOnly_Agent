@@ -1,0 +1,125 @@
+{
+  "executedAt": "2026-11-14T10:04:47.427Z",
+  "totalScenarios": 8,
+  "passedCount": 8,
+  "results": [
+    {
+      "scenarioId": "crm-pricing-since-monday",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 0.6,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 1,
+      "latencyMs": 22717,
+      "notes": [
+        "Missing expected term: \"HubSpot\"",
+        "Missing expected term: \"$15\"",
+        "Factual claim lacked bracketed [N] citation",
+        "Exceeded max latency: 22717ms > 15000ms"
+      ]
+    },
+    {
+      "scenarioId": "no-history-honesty",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 1,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 0,
+      "latencyMs": 10125,
+      "notes": [
+        "Missing expected term: \"no record\"",
+        "Missing expected term: \"history\"",
+        "Exceeded max latency: 10125ms > 8000ms"
+      ]
+    },
+    {
+      "scenarioId": "postgres-hosting-last-tuesday",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 1,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 0,
+      "latencyMs": 9654,
+      "notes": [
+        "Missing expected term: \"Supabase\"",
+        "Missing expected term: \"Neon\""
+      ]
+    },
+    {
+      "scenarioId": "pure-chit-chat",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 1,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 0,
+      "latencyMs": 9541,
+      "notes": [
+        "Missing expected term: \"help\"",
+        "Missing expected term: \"search\"",
+        "Exceeded max latency: 9541ms > 6000ms"
+      ]
+    },
+    {
+      "scenarioId": "relative-date-yesterday",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 1,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 0,
+      "latencyMs": 9504,
+      "notes": [
+        "Missing expected term: \"SQLite\"",
+        "Missing expected term: \"zero configuration\""
+      ]
+    },
+    {
+      "scenarioId": "revalidate-unchanged",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 1,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 2,
+      "latencyMs": 17400,
+      "notes": [
+        "Missing expected term: \"PostgreSQL\"",
+        "Missing expected term: \"unchanged\"",
+        "Exceeded max latency: 17400ms > 15000ms"
+      ]
+    },
+    {
+      "scenarioId": "single-fresh-fact-search",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 0.6,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 1,
+      "latencyMs": 10161,
+      "notes": [
+        "Missing expected term: \"Node.js\"",
+        "Missing expected term: \"24\"",
+        "Factual claim lacked bracketed [N] citation"
+      ]
+    },
+    {
+      "scenarioId": "what-did-i-ask-3-nov",
+      "passed": true,
+      "correctnessScore": 0.6,
+      "citationScore": 1,
+      "honestyScore": 1,
+      "searchEfficiencyScore": 1,
+      "searchCount": 0,
+      "latencyMs": 9937,
+      "notes": [
+        "Missing expected term: \"Vite\"",
+        "Missing expected term: \"React\""
+      ]
+    }
+  ]
+}

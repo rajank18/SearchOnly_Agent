@@ -1,0 +1,43 @@
+{
+  "id": "crm-pricing-since-monday",
+  "name": "HubSpot CRM Pricing Revalidation Since Monday",
+  "fakeNow": "2026-11-14T12:00:00.000Z",
+  "userTz": "Asia/Kolkata",
+  "userMessage": "Has HubSpot CRM pricing changed since Monday?",
+  "seededTurns": [
+    {
+      "id": "scenario-seed-1",
+      "sessionId": "eval-session-crm",
+      "userMessage": "What is the pricing for HubSpot CRM Starter tier?",
+      "assistantResponse": "As of Monday, the HubSpot CRM Starter tier is $15/month [1].",
+      "userTz": "Asia/Kolkata",
+      "createdAt": "2026-11-09T09:00:00.000Z"
+    }
+  ],
+  "seededClaims": [
+    {
+      "entity": "HubSpot",
+      "attribute": "starter_price",
+      "value": "$15/month",
+      "sourceUrl": "https://www.hubspot.com/pricing/crm",
+      "retrievedAt": "2026-11-09T09:00:00.000Z",
+      "volatility": "high"
+    }
+  ],
+  "searchFixtures": {
+    "HubSpot CRM starter pricing 2026": [
+      {
+        "title": "HubSpot Pricing & Plans 2026",
+        "url": "https://www.hubspot.com/pricing/crm",
+        "snippet": "HubSpot CRM Starter tier remains at $15/month billed monthly.",
+        "publishedDate": "2026-11-13"
+      }
+    ]
+  },
+  "expectations": {
+    "expectedMode": "revalidate",
+    "entities": ["HubSpot"],
+    "mustMention": ["HubSpot", "$15"],
+    "maxLatencyMs": 15000
+  }
+}

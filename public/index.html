@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search-Only Agent</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --surface-border: #334155;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --primary: #38bdf8;
+        --primary-hover: #0284c7;
+        --user-msg: #2563eb;
+        --assistant-msg: #1e293b;
+        --citation-badge: #0284c7;
+        --font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-family);
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header {
+        padding: 16px 24px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--surface-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h1 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .badge {
+        background: #0284c722;
+        color: var(--primary);
+        border: 1px solid #38bdf844;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .meta-info {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .seed-btn {
+        background: transparent;
+        border: 1px solid var(--surface-border);
+        color: var(--text-muted);
+        padding: 4px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.2s;
+      }
+      .seed-btn:hover {
+        background: var(--surface-border);
+        color: var(--text);
+      }
+
+      main {
+        flex: 1;
+        overflow-y: auto;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .message {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .message.user {
+        align-items: flex-end;
+      }
+
+      .message.assistant {
+        align-items: flex-start;
+      }
+
+      .bubble {
+        padding: 12px 16px;
+        border-radius: 12px;
+        line-height: 1.5;
+        font-size: 0.95rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .message.user .bubble {
+        background: var(--user-msg);
+        color: #fff;
+        border-bottom-right-radius: 2px;
+      }
+
+      .message.assistant .bubble {
+        background: var(--assistant-msg);
+        border: 1px solid var(--surface-border);
+        border-bottom-left-radius: 2px;
+      }
+
+      .status-bar {
+        font-size: 0.85rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+        font-style: italic;
+      }
+
+      .spinner {
+        width: 12px;
+        height: 12px;
+        border: 2px solid var(--primary);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .citations-container {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--surface-border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .citation-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #0f172a;
+        border: 1px solid var(--surface-border);
+        color: var(--primary);
+        text-decoration: none;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        transition: border-color 0.2s;
+      }
+
+      .citation-link:hover {
+        border-color: var(--primary);
+        text-decoration: underline;
+      }
+
+      footer {
+        padding: 16px 24px;
+        background: var(--surface);
+        border-top: 1px solid var(--surface-border);
+      }
+
+      .input-container {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        gap: 12px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 12px 16px;
+        background: #0f172a;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+        color: var(--text);
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      input[type="text"]:focus {
+        border-color: var(--primary);
+      }
+
+      button.send-btn {
+        padding: 12px 20px;
+        background: var(--primary);
+        color: #0f172a;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      button.send-btn:hover:not(:disabled) {
+        background: var(--primary-hover);
+      }
+
+      button.send-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <span>Search-Only Agent</span>
+        <span class="badge">SSE Streaming</span>
+      </h1>
+      <div class="meta-info">
+        <span id="tzLabel">Timezone: Detecting...</span>
+        <button class="seed-btn" id="newChatBtn" title="Starts a fresh session">New Chat</button>
+        <button class="seed-btn" id="seedBtn" title="Loads historical seed turns">
+          Seed Past Turns
+        </button>
+      </div>
+    </header>
+
+    <main id="messagesList">
+      <div class="message assistant">
+        <div class="bubble">
+          Hello! I am a grounded chat agent whose only external tool is real-time web search. Ask me
+          anything, or ask about past discussions!
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="input-container">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Ask a question (e.g. 'What were HubSpot CRM prices discussed on Monday?')"
+          autocomplete="off"
+        />
+        <button class="send-btn" id="sendBtn">Send</button>
+      </div>
+    </footer>
+
+    <script>
+      const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata";
+      document.getElementById("tzLabel").textContent = "Tz: " + userTz;
+
+      let sessionId = localStorage.getItem("agent_session_id");
+      if (!sessionId) {
+        sessionId = "session-" + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem("agent_session_id", sessionId);
+      }
+
+      const messagesList = document.getElementById("messagesList");
+      const userInput = document.getElementById("userInput");
+      const sendBtn = document.getElementById("sendBtn");
+      const seedBtn = document.getElementById("seedBtn");
+      const newChatBtn = document.getElementById("newChatBtn");
+
+      newChatBtn.addEventListener("click", () => {
+        sessionId = "session-" + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem("agent_session_id", sessionId);
+        messagesList.innerHTML = `
+          <div class="message assistant">
+            <div class="bubble">Started a new conversation session. How can I help you today?</div>
+          </div>
+        `;
+      });
+
+      // Restore session history on load if returning to an existing session
+      async function restoreHistory() {
+        try {
+          const res = await fetch(`/api/history?sessionId=${sessionId}`);
+          const data = await res.json();
+          if (data.messages && data.messages.length > 0) {
+            messagesList.innerHTML = "";
+            for (const m of data.messages) {
+              addMessage(m.role, m.content);
+            }
+          }
+        } catch (err) {
+          console.warn("Could not restore session history:", err);
+        }
+      }
+      restoreHistory();
+
+      seedBtn.addEventListener("click", async () => {
+        seedBtn.disabled = true;
+        seedBtn.textContent = "Seeding...";
+        try {
+          const res = await fetch("/api/seed", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sessionId }),
+          });
+          const data = await res.json();
+          addMessage(
+            "assistant",
+            `Seeded ${data.seededTurns || 3} historical conversation turns (from 3 Nov, Monday, and last Tuesday) into your memory.\n\nYou can now test:\n1. "What did I ask on 3 Nov?"\n2. "What postgres hosting options did we discuss last Tuesday?"\n3. "Has HubSpot CRM pricing changed since Monday?"`
+          );
+        } catch (err) {
+          alert("Seed failed: " + err.message);
+        } finally {
+          seedBtn.disabled = false;
+          seedBtn.textContent = "Seed Past Turns";
+        }
+      });
+
+      function scrollToBottom() {
+        messagesList.scrollTop = messagesList.scrollHeight;
+      }
+
+      function addMessage(role, text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `message ${role}`;
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.textContent = text;
+        msgDiv.appendChild(bubble);
+        messagesList.appendChild(msgDiv);
+        scrollToBottom();
+        return { msgDiv, bubble };
+      }
+
+      async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        addMessage("user", text);
+        userInput.value = "";
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+
+        // Create assistant container
+        const { msgDiv, bubble } = addMessage("assistant", "");
+
+        const statusBar = document.createElement("div");
+        statusBar.className = "status-bar";
+        statusBar.innerHTML =
+          '<div class="spinner"></div><span class="status-text">Thinking...</span>';
+        msgDiv.appendChild(statusBar);
+
+        const citationsMap = new Map();
+        const citationsContainer = document.createElement("div");
+        citationsContainer.className = "citations-container";
+        citationsContainer.style.display = "none";
+        msgDiv.appendChild(citationsContainer);
+
+        try {
+          const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId,
+              message: text,
+              timezone: userTz,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+          }
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n\n");
+            buffer = lines.pop() || "";
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed.startsWith("data:")) continue;
+              const jsonStr = trimmed.slice(5).trim();
+              if (!jsonStr) continue;
+
+              try {
+                const event = JSON.parse(jsonStr);
+
+                if (event.type === "status") {
+                  statusBar.style.display = "flex";
+                  statusBar.querySelector(".status-text").textContent = event.message;
+                } else if (event.type === "citation") {
+                  const c = event.citation;
+                  if (!citationsMap.has(c.url)) {
+                    citationsMap.set(c.url, c);
+                    citationsContainer.style.display = "flex";
+                    const a = document.createElement("a");
+                    a.className = "citation-link";
+                    a.href = c.url;
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    a.textContent = `[${c.id}] ${c.title || c.url}`;
+                    citationsContainer.appendChild(a);
+                  }
+                } else if (event.type === "token") {
+                  statusBar.style.display = "none";
+                  bubble.textContent += event.content;
+                  scrollToBottom();
+                } else if (event.type === "done") {
+                  statusBar.style.display = "none";
+                } else if (event.type === "error") {
+                  statusBar.style.display = "none";
+                  bubble.textContent += `\n[Error: ${event.error}]`;
+                }
+              } catch (parseErr) {
+                console.error("Failed to parse SSE event:", jsonStr, parseErr);
+              }
+            }
+          }
+        } catch (err) {
+          statusBar.style.display = "none";
+          bubble.textContent = "Error: " + err.message;
+        } finally {
+          userInput.disabled = false;
+          sendBtn.disabled = false;
+          userInput.focus();
+          scrollToBottom();
+        }
+      }
+
+      sendBtn.addEventListener("click", sendMessage);
+      userInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    </script>
+  </body>
+</html>
