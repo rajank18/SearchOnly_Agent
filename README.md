@@ -13,6 +13,9 @@ A TypeScript/Node chat agent whose **only** external tool is web search. The age
 
 ## Architecture Overview
 
+<img width="746" height="741" alt="image" src="https://github.com/user-attachments/assets/7ac8946c-094d-4fab-98b5-00996484f0a3" />
+
+
 ```
 Client (Vanilla JS / SSE)
        │
